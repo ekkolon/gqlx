@@ -1,0 +1,35 @@
+/* Ensure the root Tauri element (host) takes full available space */
+.gqlx-result-view {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  --gqlx-sidebar-border-color: #444;
+
+  .cm-editor {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    border: none;
+
+    // Ensure the line numbers (gutter) can use the pseudo-element
+    .cm-gutters {
+      position: relative; // Required for the absolute positioning of the pseudo-element
+
+      // Pseudo-element for the border
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0px; // Adjust for spacing from line numbers
+        top: 0;
+        bottom: 0;
+        width: 1px; // Border width
+        background-color: var(--gqlx-sidebar-border-color); // Border color
+        z-index: 1; // Ensure it appears behind line numbers
+      }
+    }
+  }
+}

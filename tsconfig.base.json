@@ -1,0 +1,22 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "dom"],
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@gqlx/ui-editor": ["packages/ui-editor/src/index.ts"],
+      "@gqlx/ui-navbar": ["packages/ui-navbar/src/index.ts"],
+      "@gqlx/ui-response-view": ["packages/ui-response-view/src/index.ts"],
+      "@gqlx/ui-sidebar": ["packages/ui-sidebar/src/index.ts"],
+      "@gqlx/util-formatter": ["packages/util-formatter/src/index.ts"]
+    }
+  }
+}

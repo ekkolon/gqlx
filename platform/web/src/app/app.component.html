@@ -1,0 +1,8 @@
+<gqlx-sidebar></gqlx-sidebar>
+<main class="flex-1 flex flex-col">
+  <gqlx-navbar></gqlx-navbar>
+  <div class="flex overflow-auto flex-1">
+    <gqlx-editor [schema]="sampleSchema" [query]="sampleQuery"></gqlx-editor>
+    <gqlx-response-view [response]="sampleResponse"></gqlx-response-view>
+  </div>
+</main>
