@@ -1,0 +1,19 @@
+.gqlx-endpoint-connection-status {
+  display: block;
+
+  &[data-status='unknown'] .badge {
+    @apply bg-gradient-to-r from-sky-400 via-sky-500 to-sky-500 animate-pulse;
+  }
+
+  &[data-status='connecting'] .badge {
+    @apply bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-500 animate-pulse;
+  }
+
+  &[data-status='connected'] .badge {
+    @apply bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-500 animate-pulse;
+  }
+
+  &[data-status='disconnected'] .badge {
+    @apply bg-gradient-to-r from-red-400 via-red-500 to-red-500 animate-pulse;
+  }
+}
