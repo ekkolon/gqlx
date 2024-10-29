@@ -1,8 +1,8 @@
 export default {
-  displayName: 'ui-editor',
+  displayName: 'ui-query-editor',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/packages/ui-editor',
+  coverageDirectory: '../../coverage/packages/ui-query-editor',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

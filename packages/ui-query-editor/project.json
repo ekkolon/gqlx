@@ -1,7 +1,7 @@
 {
-  "name": "ui-editor",
+  "name": "ui-query-editor",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/ui-editor/src",
+  "sourceRoot": "packages/ui-query-editor/src",
   "prefix": "gql",
   "projectType": "library",
   "tags": ["ui"],
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/ui-editor/jest.config.ts"
+        "jestConfig": "packages/ui-query-editor/jest.config.ts"
       }
     },
     "lint": {
