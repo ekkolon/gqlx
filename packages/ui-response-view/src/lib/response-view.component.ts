@@ -43,6 +43,11 @@ export class GqlxResultViewComponent {
 
   readonly response = input<string | object | undefined>(undefined);
 
+  private readonly responseChangeEffect = effect(() => {
+    const response = this.response();
+    this.updateState(response);
+  });
+
   constructor() {
     afterNextRender(() => {
       const state = EditorState.create({
@@ -54,6 +59,18 @@ export class GqlxResultViewComponent {
         state: state,
         parent: this.elementRef.nativeElement,
       });
+    });
+  }
+
+  private async updateState(response: ResponsePayload) {
+    const to = this.view?.state.doc.length;
+    const formattedDoc = formatJSON(response);
+    this.view?.dispatch({
+      changes: {
+        from: 0,
+        to,
+        insert: formattedDoc,
+      },
     });
   }
 }
