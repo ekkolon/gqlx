@@ -1,0 +1,45 @@
+.gqlx-query-config {
+  --gqlx-view-max-height: 50%;
+  --gqlx-view-expanded-height: 135px;
+  --gqlx-view-default-height: 64px;
+  --gqlx-view-bg-color: rgba(40, 44, 52, 1);
+  --gqlx-view-border-color: #444;
+
+  max-height: var(--gqlx-view-max-height);
+  background-color: var(--gqlx-view-bg-color);
+  border-top: 1px solid var(--gqlx-view-border-color);
+  overflow: hidden;
+
+  .tab {
+    @apply text-white hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700;
+  }
+
+  .tab.tab-active {
+    @apply bg-gray-900 dark:bg-gray-800 ring-1;
+  }
+
+  .tabs {
+    height: var(--gqlx-view-default-height);
+  }
+
+  .tab-content,
+  .tab-content[data-state='shrink'] {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &[data-state='shrink'] {
+    height: var(--gqlx-view-default-height);
+  }
+
+  &[data-state='expanded'] {
+    height: var(--gqlx-view-expanded-height);
+
+    .tab-content {
+      display: block;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
