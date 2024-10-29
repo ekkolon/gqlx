@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts", "../../packages/ui-sidebar/src/lib/sidebar.component.spec.ts", "../../packages/ui-sidebar/src/lib/sidebar.component.ts"],
+  "include": [
+    "src/**/*.ts",
+    "../../packages/ui-sidebar/src/lib/sidebar.component.spec.ts",
+    "../../packages/ui-sidebar/src/lib/sidebar.component.ts"
+  ],
   "compilerOptions": {},
   "exclude": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts"]
 }

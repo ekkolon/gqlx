@@ -26,7 +26,6 @@ const coreExtensions = [
   oneDark,
 ];
 
-
 export type ResponsePayload = string | object | undefined;
 
 // TODO: Use method from util-formatter lib
