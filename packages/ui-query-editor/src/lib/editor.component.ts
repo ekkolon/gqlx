@@ -3,10 +3,10 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   inject,
   input,
-  output,
   ViewEncapsulation,
 } from '@angular/core';
 import { autocompletion, closeBrackets } from '@codemirror/autocomplete';
@@ -21,32 +21,27 @@ import { EditorState } from '@codemirror/state';
 import { oneDark, oneDarkHighlightStyle } from '@codemirror/theme-one-dark';
 import { keymap, lineNumbers } from '@codemirror/view';
 import { formatGQL } from '@gqlx/util-formatter';
-import { graphql, updateSchema } from 'cm6-graphql';
+import { completion, graphql, updateSchema } from 'cm6-graphql';
 import { basicSetup, EditorView } from 'codemirror';
 import { GraphQLSchema } from 'graphql';
-import {
-  LucideAngularModule,
-  LucideCopy,
-  LucidePlay,
-  LucideStopCircle,
-  LucideWandSparkles,
-} from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
 
 const coreExtensions = [
   bracketMatching(),
   closeBrackets(),
   history(),
   autocompletion(),
+  completion,
   lineNumbers(),
   syntaxHighlighting(oneDarkHighlightStyle),
   basicSetup,
   oneDark,
-  keymap.of([...defaultKeymap, ...historyKeymap]), // Default key bindings
+  keymap.of([...defaultKeymap, ...historyKeymap]),
   keymap.of([indentWithTab]),
 ];
 
 @Component({
-  selector: 'gqlx-editor',
+  selector: 'gqlx-query-editor',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './editor.component.html',
@@ -54,22 +49,28 @@ const coreExtensions = [
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'gqlx-editor-view',
+    class: 'gqlx-query-editor',
   },
 })
-export class GqlxEditorComponent {
+export class GqlxQueryEditorComponent {
   private readonly elementRef = inject(ElementRef);
+
   private view?: EditorView;
+
+  /**
+   * The GraphQL server endpoint to render within the CodeMirror editor view.
+   */
+  readonly endpoint = input<string | null>(null);
 
   /**
    * The GraphQL schema to render within the CodeMirror editor view.
    */
-  readonly schema = input<GraphQLSchema>();
+  readonly schema = input<GraphQLSchema | null>(null);
 
   /**
    * A string representing a predefined GraphQL query to load into the editor initially.
    */
-  readonly query = input<string | undefined>(undefined, {});
+  readonly query = input<string | undefined>('', {});
 
   /**
    * Indicates whether a query is currently being executed.
@@ -84,25 +85,10 @@ export class GqlxEditorComponent {
    */
   readonly showErrorOnInvalidSchema = input<boolean>(false);
 
-  /**
-   * Event emitted when a user explicitly initiates query execution.
-   */
-  protected readonly execute = output<void>();
-
-  /**
-   * Event emitted when a query is explicitly canceled by the user.
-   */
-  protected readonly canceled = output<void>();
-
-  /**
-   * Object containing icon components for various editor actions.
-   */
-  readonly icons = {
-    execute: LucidePlay,
-    stop: LucideStopCircle,
-    pretty: LucideWandSparkles,
-    copy: LucideCopy,
-  };
+  private readonly schemaChangeEffect = effect(() => {
+    const schema = this.schema();
+    this.updateSchema(schema);
+  });
 
   constructor() {
     afterNextRender(async () => {
@@ -114,16 +100,40 @@ export class GqlxEditorComponent {
     });
   }
 
-  /**
-   * Emits an event to notify parent listeners to cancel the currently running query.
-   * Only emits if a query is in progress (`isRunning` is `true`).
-   */
-  cancel() {
-    if (this.isRunning()) {
-      // Note: We perform this extra check here because, even though unlikely,
-      // an actor creating this component dynamically may call this method and
-      // potentially emit a `canceled` event for no query running.
-      this.canceled.emit();
+  getSnapshot() {
+    return this.view?.state.doc.toString() ?? '';
+  }
+
+  async copy() {
+    const doc = this.view?.state.doc.toString() ?? '';
+    const formattedDoc = await formatGQL(doc);
+  }
+
+  async format() {
+    const to = this.view?.state.doc.length;
+    const doc = this.view?.state.doc.toString() ?? '';
+    const formattedDoc = await formatGQL(doc);
+    this.view?.dispatch({
+      changes: {
+        from: 0,
+        to,
+        insert: formattedDoc,
+      },
+    });
+  }
+
+  // Method to set a new document content
+  setDocumentContent(newContent: string) {
+    if (this.view) {
+      const currentDocLength = this.view.state.doc.length;
+
+      this.view.dispatch({
+        changes: {
+          from: 0,
+          to: currentDocLength,
+          insert: newContent,
+        },
+      });
     }
   }
 
@@ -134,7 +144,7 @@ export class GqlxEditorComponent {
    * @param schema An instance of {@link GraphQLSchema} to load into the editor,
    * or `null`/`undefined` to clear the current schema.
    */
-  updateSchema(schema?: GraphQLSchema | null) {
+  private updateSchema(schema?: GraphQLSchema | null) {
     if (this.view) {
       if (schema == null) {
         updateSchema(this.view, undefined);
@@ -146,24 +156,18 @@ export class GqlxEditorComponent {
   }
 
   private async createEditorState() {
-    const schema = this.schema();
     const showErrorOnInvalidSchema = this.showErrorOnInvalidSchema();
-
-    const graphqlFacet = graphql(schema, {
+    const graphqlFacet = graphql(undefined, {
       showErrorOnInvalidSchema,
-      autocompleteOptions: { mode: 'EXECUTABLE' as never },
-      onShowInDocs(field, type, parentType) {
-        // alert(
-        //   `Showing in docs.: Field: ${field}, Type: ${type}, ParentType: ${parentType}`,
-        // );
-      },
-      onFillAllFields(view, schema, _query, cursor, token) {
-        // alert(`Filling all fields. Token: ${token}`);
+      autocompleteOptions: {
+        mode: 'UNKNOWN' as never,
+        uri: this.endpoint() ?? undefined,
       },
     });
 
     let query = this.query();
     if (query) {
+      // Prepolutate editor view with user-specified query
       query = await formatGQL(query);
     }
 
