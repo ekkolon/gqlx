@@ -8,7 +8,6 @@ import {
   input,
   ViewEncapsulation,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { json } from '@codemirror/lang-json'; // Import JSON language support
 import { bracketMatching, syntaxHighlighting } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
@@ -29,7 +28,7 @@ const coreExtensions = [
 @Component({
   selector: 'gqlx-response-view',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule],
   template: '',
   styleUrl: './response-view.component.scss',
   encapsulation: ViewEncapsulation.None,
