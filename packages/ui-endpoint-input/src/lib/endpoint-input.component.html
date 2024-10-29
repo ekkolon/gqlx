@@ -1,0 +1,40 @@
+<div class="flex items-center w-full mx-auto relative">
+  <gqlx-endpoint-connection-status-badge
+    [status]="connectionStatus()"
+    class="absolute left-4"
+    aria-label="Connection status"
+    role="status"
+    [attr.aria-live]="connectionStatus() === 'connecting' ? 'polite' : 'off'"
+  ></gqlx-endpoint-connection-status-badge>
+  <input
+    type="url"
+    [(ngModel)]="endpoint"
+    placeholder="http://example.com/graphql"
+    class="block w-full py-3 pl-12 pr-4 text-gray-900 border border-gray-300 rounded-full bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    aria-label="GraphQL endpoint URL"
+    aria-describedby="endpoint-description"
+  />
+  <span id="endpoint-description" class="sr-only">
+    Enter the GraphQL API endpoint URL
+  </span>
+
+  <!-- TODO: DRY. Refactor to component -->
+  @if (isRunning()) {
+    <button
+      aria-label="Cancel query execution"
+      aria-live="polite"
+      (click)="canceled.emit()"
+      class="absolute right-3 bg-indigo-700 shadow-xl size-8 flex items-center justify-center rounded-md transition-opacity duration-100 hover:opacity-70"
+    >
+      <lucide-icon [img]="icons.stop" class="size-6"></lucide-icon>
+    </button>
+  } @else {
+    <button
+      aria-label="Execute query"
+      (click)="execute.emit()"
+      class="absolute right-1 bg-violet-700 shadow-xl size-11 flex items-center justify-center rounded-full transition-opacity duration-100 hover:opacity-70"
+    >
+      <lucide-icon [img]="icons.execute" class="size-6"></lucide-icon>
+    </button>
+  }
+</div>
