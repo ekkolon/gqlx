@@ -41,7 +41,7 @@ export class GqlxResultViewComponent {
   private readonly elementRef = inject(ElementRef);
   private view?: EditorView;
 
-  readonly response = input<string>();
+  readonly response = input<string | object | undefined>(undefined);
 
   constructor() {
     afterNextRender(() => {
