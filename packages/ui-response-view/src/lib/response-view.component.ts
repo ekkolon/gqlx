@@ -3,12 +3,12 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   inject,
   input,
   ViewEncapsulation,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { json } from '@codemirror/lang-json'; // Import JSON language support
 import { bracketMatching, syntaxHighlighting } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
@@ -26,10 +26,19 @@ const coreExtensions = [
   oneDark,
 ];
 
+
+export type ResponsePayload = string | object | undefined;
+
+// TODO: Use method from util-formatter lib
+function formatJSON(response: ResponsePayload): string | undefined {
+  if (response == null) return undefined;
+  return JSON.stringify(response, null, 2);
+}
+
 @Component({
   selector: 'gqlx-response-view',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule],
   template: '',
   styleUrl: './response-view.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -42,12 +51,19 @@ export class GqlxResultViewComponent {
   private readonly elementRef = inject(ElementRef);
   private view?: EditorView;
 
-  readonly response = input<string>();
+  readonly response = input<string | object | undefined>(undefined);
+
+  private readonly responseChangeEffect = effect(() => {
+    const response = this.response();
+    this.updateState(response);
+  });
 
   constructor() {
     afterNextRender(() => {
+      const res = this.response();
+      const formattedDoc = formatJSON(res);
       const state = EditorState.create({
-        doc: this.response(),
+        doc: formattedDoc,
         extensions: [...coreExtensions],
       });
 
@@ -55,6 +71,18 @@ export class GqlxResultViewComponent {
         state: state,
         parent: this.elementRef.nativeElement,
       });
+    });
+  }
+
+  private async updateState(response: ResponsePayload) {
+    const to = this.view?.state.doc.length;
+    const formattedDoc = formatJSON(response);
+    this.view?.dispatch({
+      changes: {
+        from: 0,
+        to,
+        insert: formattedDoc,
+      },
     });
   }
 }
