@@ -1,4 +1,7 @@
 [build]
+# We place build outputs in the `build` directory in the root of this project.
+# This directory will contain build outputs for both the Angular frontend and
+# the binary built by Tauri.
 target-dir = 'build/desktop'
 
 [target.x86_64-unknown-linux-musl]

@@ -1,6 +1,13 @@
 {
   "name": "gqlx",
   "version": "0.1.0",
+  "license": "(MIT OR Apache-2.0)",
+  "author": {
+    "email": "ekkolon@proton.me",
+    "name": "Nelson Dominguez",
+    "url": "https://github.com/ekkolon"
+  },
+  "description": "A low-memory footprint GraphQL client for your desktop, designed to quickly explore and test GraphQL APIs",
   "scripts": {
     "ng": "ng",
     "start": "nx serve web -c production",
