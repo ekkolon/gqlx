@@ -32,7 +32,7 @@ export async function formatGQL(
   query: string,
   options?: GqlxFormatOptions,
 ): Promise<string> {
-  const prettierGraphQL = (await import('prettier/plugins/graphql')).default;
+  const prettierGraphQL = await import('prettier/plugins/graphql');
   return prettierFormat(query, {
     ...options,
     parser: 'graphql',
