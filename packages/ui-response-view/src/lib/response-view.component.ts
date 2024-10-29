@@ -25,6 +25,15 @@ const coreExtensions = [
   oneDark,
 ];
 
+
+export type ResponsePayload = string | object | undefined;
+
+// TODO: Use method from util-formatter lib
+function formatJSON(response: ResponsePayload): string | undefined {
+  if (response == null) return undefined;
+  return JSON.stringify(response, null, 2);
+}
+
 @Component({
   selector: 'gqlx-response-view',
   standalone: true,
@@ -50,8 +59,10 @@ export class GqlxResultViewComponent {
 
   constructor() {
     afterNextRender(() => {
+      const res = this.response();
+      const formattedDoc = formatJSON(res);
       const state = EditorState.create({
-        doc: this.response(),
+        doc: formattedDoc,
         extensions: [...coreExtensions],
       });
 
