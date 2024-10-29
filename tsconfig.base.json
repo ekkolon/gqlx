@@ -17,6 +17,7 @@
       ],
       "@gqlx/ui-endpoint-input": ["packages/ui-endpoint-input/src/index.ts"],
       "@gqlx/ui-navbar": ["packages/ui-navbar/src/index.ts"],
+      "@gqlx/ui-query-config": ["packages/ui-query-config/src/index.ts"],
       "@gqlx/ui-query-editor": ["packages/ui-query-editor/src/index.ts"],
       "@gqlx/ui-response-view": ["packages/ui-response-view/src/index.ts"],
       "@gqlx/ui-sidebar": ["packages/ui-sidebar/src/index.ts"],

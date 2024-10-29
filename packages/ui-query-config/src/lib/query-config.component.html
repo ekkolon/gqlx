@@ -1,0 +1,27 @@
+<header class="tabs flex items-center gap-4 px-4 select-none" role="tablist">
+  <div class="flex items-center flex-1 gap-1">
+    @for (tab of tabs; track $index) {
+      <button
+        class="tab"
+        role="tab"
+        [attr.aria-selected]="activeTab() === tab"
+        [attr.aria-controls]="tab.toLowerCase() + '-panel'"
+        [ngClass]="{ 'tab-active': activeTab() === tab }"
+        (click)="selectTab(tab)"
+      >
+        {{ tab }}
+      </button>
+    }
+  </div>
+  <button (click)="toggleExpand()">
+    <lucide-icon [img]="expansionStateIcon()" class="size-5"></lucide-icon>
+  </button>
+</header>
+
+<section
+  class="tab-content overflow-auto"
+  [id]="activeTab() + '-panel'"
+  role="tabpanel"
+  [attr.aria-labelledby]="activeTab()"
+  #tabContent
+></section>
