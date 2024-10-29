@@ -9,10 +9,9 @@ import {
 } from '@angular/core';
 
 import { GqlxEndpointService } from '@gqlx/data-access-endpoint';
-import { GqlxQueryEditorComponent } from '@gqlx/ui-query-editor';
 import { GqlxEndpointInputComponent } from '@gqlx/ui-endpoint-input';
-import { GqlxNavbarComponent } from '@gqlx/ui-navbar';
 import { GqlxQueryConfigComponent } from '@gqlx/ui-query-config';
+import { GqlxQueryEditorComponent } from '@gqlx/ui-query-editor';
 import { GqlxResultViewComponent } from '@gqlx/ui-response-view';
 import { GqlxSidebarComponent } from '@gqlx/ui-sidebar';
 import { ConnectionStatusKind } from '@gqlx/util-introspection';
@@ -45,7 +44,6 @@ import {
     GqlxQueryEditorComponent,
     GqlxResultViewComponent,
     GqlxSidebarComponent,
-    GqlxNavbarComponent,
     GqlxEndpointInputComponent,
     GqlxQueryConfigComponent,
     LucideAngularModule,
