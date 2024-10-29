@@ -20,6 +20,7 @@
       "@gqlx/ui-query-editor": ["packages/ui-query-editor/src/index.ts"],
       "@gqlx/ui-response-view": ["packages/ui-response-view/src/index.ts"],
       "@gqlx/ui-sidebar": ["packages/ui-sidebar/src/index.ts"],
+      "@gqlx/util-formatter": ["packages/util-formatter/src/index.ts"],
       "@gqlx/util-introspection": ["packages/util-introspection/src/index.ts"]
     }
   }
