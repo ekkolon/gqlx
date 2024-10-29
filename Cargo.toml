@@ -6,10 +6,11 @@ members = [
 
 [workspace.package]
 version = "0.1.0"
-authors = ["Nelson Dominguez"]
+authors = ["Nelson Dominguez <ekkolon@proton.me>"]
 readme = "./README.md"
-# license-file = "./LICENSE"
-repository = "https://github.com/letterflow/letterflow/"
+license = "MIT OR Apache-2.0"
+description = "A low-memory footprint GraphQL client for your desktop, designed to quickly explore and test GraphQL APIs"
+repository = "https://github.com/gqlx"
 rust-version = "1.75.0"
 edition = "2021"
 
