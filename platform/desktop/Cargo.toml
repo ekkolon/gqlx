@@ -1,6 +1,6 @@
 [package]
 name = "gqlx"
-version = "0.1.0"
+version = "0.1.0-alpha.1"
 description = "An efficient, low-memory consuming GraphQL IDE for your desktop to explore and test GraphQL APIs"
 authors = ["Nelson Dominguez <ekkolon@proton.me>"]
 edition = "2021"
