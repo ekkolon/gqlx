@@ -32,7 +32,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "command": "NX_CLOUD_DISTRIBUTED_EXECUTION=false cargo test",
-        "args": ["-p web"]
+        "args": ["-p gqlx"]
       }
     },
     "lint": {
@@ -40,7 +40,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "command": "cargo clippy",
-        "args": ["-p web"]
+        "args": ["-p gqlx"]
       }
     }
   }
