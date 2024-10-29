@@ -1,8 +1,48 @@
 <gqlx-sidebar></gqlx-sidebar>
-<main class="flex-1 flex flex-col">
-  <gqlx-navbar></gqlx-navbar>
-  <div class="flex overflow-auto flex-1">
-    <gqlx-editor [schema]="sampleSchema" [query]="sampleQuery"></gqlx-editor>
-    <gqlx-response-view [response]="sampleResponse"></gqlx-response-view>
-  </div>
+
+<main class="flex-1 flex overflow-hidden">
+  <section class="flex-1 flex flex-col relative size-full overflow-hidden">
+    <header
+      class="absolute top-0 left-0 right-0 z-50 px-6 flex items-center h-20"
+    >
+      <gqlx-endpoint-input
+        [endpoint]="endpoint$ | async"
+        (endpointChange)="onEndpointChange($event)"
+        class="min-w-96 w-full shadow-xl"
+        [connectionStatus]="connectionStatus()"
+        (execute)="executeQuery()"
+      ></gqlx-endpoint-input>
+    </header>
+
+    <!-- TODO: DRY - Move to reusable button component -->
+    <aside
+      class="flex flex-col items-center py-1 absolute top-1/3 right-0 -translate-x-1/2 -translate-y-1/2 z-50 text-gray-900 border border-gray-300 rounded-full bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+    >
+      <button
+        class="flex items-center justify-center size-10 rounded-md transition-opacity duration-100 hover:bg-opacity-75 hover:opacity-70"
+        (click)="editor.format()"
+      >
+        <lucide-icon [img]="icons.pretty" class="size-5"></lucide-icon>
+      </button>
+
+      <button
+        class="flex items-center justify-center size-10 rounded-md transition-opacity duration-100 hover:bg-opacity-75 hover:opacity-70"
+        (click)="editor.copy()"
+      >
+        <lucide-icon [img]="icons.copy" class="size-5"></lucide-icon>
+      </button>
+    </aside>
+
+    <gqlx-query-editor
+      class="flex-1"
+      [endpoint]="endpoint$ | async"
+      [schema]="schema$ | async"
+      #editor
+    ></gqlx-query-editor>
+
+    <gqlx-query-config></gqlx-query-config>
+  </section>
+  <section class="flex-1 flex flex-col relative size-full overflow-hidden">
+    <gqlx-response-view [response]="lastResponse()"></gqlx-response-view>
+  </section>
 </main>
