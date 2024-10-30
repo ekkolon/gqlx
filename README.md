@@ -1,6 +1,8 @@
 # GQLx
 
-A GraphQL client for your desktop with a low-memory footprint, designed to quickly explore and test GraphQL APIs.
+Low-memory footprint GraphQL desktop client designed for distraction-free API exploration without sacrificing essential features.
+
+[GQLx Default cover](https://github.com/ekkolon/gqlx/tree/dev/images/default-cover.png)
 
 ## Why does this project exist?
 
