@@ -2,7 +2,7 @@
 
 Low-memory footprint GraphQL desktop client designed for distraction-free API exploration without sacrificing essential features.
 
-[GQLx Default cover](https://github.com/ekkolon/gqlx/tree/dev/images/default-cover.png)
+[GQLx Default cover](https://github.com/ekkolon/gqlx/blob/dev/images/default-cover.png)
 
 ## Why does this project exist?
 
